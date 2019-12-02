@@ -14,26 +14,21 @@ import java.io.Writer;
 public class Main {
 
     public static void main(String[] args) {
-	    // write your code here
-        File ppm = new File("./image/out.ppm");
-        if(!ppm.exists()){
-            try {
-                ppm.createNewFile();
-            }catch (Exception e){
-                System.out.println("can't not create file!");
-                System.out.println(e.getMessage());
+        int width = 200;
+        int height = 100;
+        Image renderImage = Image.createImage(width,height,PPMFormat.PIXEL_ASCILL);
+        int[] data = new int[height*width*3];
+        for(int i = height-1;i >= 0 ;i--){
+            for(int j = 0;j < width;j++){
+                float r = 1.0f* j / width;
+                float g = 1.0f* i / height;
+                float b = 0.2f;
+                data[(height - 1 - i)*width*3+j*3] = (int)(255.999*r);
+                data[(height - 1 - i)*width*3+j*3+1] = (int)(255.999*g);
+                data[(height - 1 - i)*width*3+j*3+2] = (int)(255.999*b);
             }
         }
-
-        try (Writer out = new FileWriter(ppm)){
-            out.append("P3\n"); // image type
-            out.append("3 2\n"); // image size
-            out.append("255\n"); // pixel intensity level
-            out.write("255 0 0 0 255 0 0 0 255\n");
-            out.write("255 255 0 255 255 255 0 0 0");
-        }catch (IOException e){
-            System.out.println(e.getMessage());
-        }
-
+        renderImage.setData(data);
+        renderImage.save("./image/out.ppm");
     }
 }
