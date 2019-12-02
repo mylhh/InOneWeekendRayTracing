@@ -4,7 +4,7 @@
  * descriptors to indicate the specific format and encoding form.
  *
  */
-public enum PPM{
+public enum PPMFormat {
 
     PIXEL_ASCILL("P3"),
     PIXEL_BINARY("P6");
@@ -16,7 +16,7 @@ public enum PPM{
      * Constructor
      * @param type ppm file type
      */
-    private PPM(String type){
+    private PPMFormat(String type){
         this.type = type;
     }
 
