@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.Writer;
 
 /**
- * represent a pixel image after render,iamge format use ppm format currently.
+ * The {@code Image} class represent a pixel image after render,iamge format use ppm format currently.
  */
 public class Image {
 
