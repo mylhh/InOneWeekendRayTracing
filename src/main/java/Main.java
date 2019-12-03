@@ -49,7 +49,7 @@ public class Main {
         renderImage.save("./image/chapter2.ppm");
     }
     public static void main(String[] args) {
-        chapter1();
-        chapter2();
+        //chapter1();
+        //chapter2();
     }
 }

@@ -1,3 +1,5 @@
+import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * The {@code Vector} class represent a <em>d</em>-dimensional Euclidean vector.
@@ -152,4 +154,26 @@ public class Vector {
         return this.scale(1.0 / this.magnitude());
     }
 
+    @Override
+    public String toString() {
+        return "Vector{" +
+                "elements=" + Arrays.toString(elements) +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Vector)) return false;
+        Vector vector = (Vector) o;
+        return d == vector.d &&
+                Arrays.equals(elements, vector.elements);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(d);
+        result = 31 * result + Arrays.hashCode(elements);
+        return result;
+    }
 }

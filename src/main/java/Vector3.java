@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 /**
  * The {@code Vector3} class represent a 3-dimensional vector.
  * It  is a wrapper class for {@link Vector} that dimension constant three.
@@ -9,8 +11,13 @@ public class Vector3 {
     private final static int INDEX_OF_XAXIS = 0,INDEX_OF_RED = 0;
     private final static int INDEX_OF_YAXIS = 1,INDEX_OF_GREEN = 1;
     private final static int INDEX_OF_ZAXIS = 2,INDEX_OF_BLUE = 2;
+    private static final Vector3 ZERO = new Vector3(0.0,0.0,0.0);
 
     private Vector vec3;
+
+    public static Vector3 getZeroVector(){
+        return ZERO;
+    }
 
     /**
      * Initializes a 3-dimensional zero vector.
@@ -179,6 +186,7 @@ public class Vector3 {
      * @return a unit vector in the direction of this vector
      */
     public Vector3 makeUnitVector(){
+        if (this.vec3.magnitude() == 0.0) throw new ArithmeticException("Zero-vector has no unit vector");
         return new Vector3(this.vec3.direction());
     }
 
@@ -189,12 +197,41 @@ public class Vector3 {
      * @return the cross product of this vector and that vector
      */
     public Vector3 cross(Vector3 that){
+
         double u1 = this.vec3.getElement(INDEX_OF_XAXIS);
         double u2 = this.vec3.getElement(INDEX_OF_YAXIS);
         double u3 = this.vec3.getElement(INDEX_OF_ZAXIS);
         double v1 = that.vec3.getElement(INDEX_OF_XAXIS);
         double v2 = that.vec3.getElement(INDEX_OF_YAXIS);
         double v3 = that.vec3.getElement(INDEX_OF_ZAXIS);
-        return new Vector3((u2*v3 - u3*v2),-(u1*v3 - u3*v1),(u1*v2 - u2*v1));
+        return new Vector3((u2*v3 - u3*v2 + 0.0),(u3*v1 - u1*v3 + 0.0),(u1*v2 - u2*v1 + 0.0));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Vector3)) return false;
+        Vector3 vector3 = (Vector3) o;
+        return Objects.equals(vec3, vector3.vec3);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(vec3);
+    }
+
+    @Override
+    public String toString() {
+        return "Vector3{" +
+                "vec3=" + vec3 +
+                '}';
+    }
+
+    public String toStringXYZ(){
+        return "X:"+this.x()+" Y:"+this.y()+" Z:"+this.z();
+    }
+
+    public String toStringRGB(){
+        return "R:"+this.r()+" G:"+this.g()+" B:"+this.b();
     }
 }
