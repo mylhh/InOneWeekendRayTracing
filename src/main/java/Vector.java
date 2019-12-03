@@ -139,7 +139,7 @@ public class Vector {
     public Vector scale(double alpha) {
         Vector c = new Vector(d);
         for (int i = 0; i < d; i++)
-            c.elements[i] = alpha * elements[i];
+            c.elements[i] = alpha * elements[i]+0.0;
         return c;
     }
 

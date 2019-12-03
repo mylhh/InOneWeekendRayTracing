@@ -53,9 +53,9 @@ public class Image {
 
             for(int i = 0;i<this.height;i++){
                 for(int j = 0;j<this.width;j++){
-                    sb.append(data[i*width*3+j*3]).append(' ')
-                      .append(data[i*width*3+j*3+1]).append(' ')
-                      .append(data[i*width*3+j*3+2]).append(' ');
+                    sb.append(data[(height - 1 - i)*width*3+j*3]).append(' ')
+                      .append(data[(height - 1 - i)*width*3+j*3+1]).append(' ')
+                      .append(data[(height - 1 - i)*width*3+j*3+2]).append(' ');
                 }
                 sb.append('\n');
             }
