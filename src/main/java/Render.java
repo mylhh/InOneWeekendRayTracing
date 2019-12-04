@@ -1,5 +1,5 @@
 /**
- *
+ * The {@code Render} class render scenes and objects.
  */
 public class Render {
     Vector3 startColor;
@@ -25,8 +25,14 @@ public class Render {
         return this.startColor.scale(1.0 - t).plus(this.endColor.scale(t));
     }
 
+    /**
+     * In the scene base the method {@link Render#backgroundColor(Ray)} add a Sphere.
+     *
+     * @param ray from origin(0,0,0) to screen flat
+     * @return color at the intersection of a ray with object
+     */
     public Vector3 addSphere(Ray ray){
-        if(hitShere(new Vector3(0,0,1),0.5,ray)){
+        if(hitSphere(new Vector3(0,0,1),0.5,ray)){
             return new Vector3(1,0,0);
         }
         Vector3 unitDrection = ray.getDirection().makeUnitVector();
@@ -34,8 +40,15 @@ public class Render {
         return this.startColor.scale(1.0 - t).plus(this.endColor.scale(t));
     }
 
+    /**
+     * Base the method {@link Render#addSphere(Ray)} we get a red sphere
+     * in the scene,now we compute and visualize normals on surface.
+     *
+     * @param ray from origin(0,0,0) to screen flat
+     * @return color correspond normal vector
+     */
     public Vector3 visualizeSphereNormals(Ray ray){
-        double t = hitPointOnShere(new Vector3(0.0,0.0,-1.0),0.5,ray);
+        double t = hitPointOnSphere(new Vector3(0.0,0.0,-1.0),0.5,ray);
         if(t > 0.0){
             Vector3 normal = ray.pointAtParameter(t).minus(new Vector3(0.0,0.0,-1.0)).makeUnitVector();
             return new Vector3(normal.x()+1,normal.y()+1,normal.z()+1).scale(0.5);
@@ -46,14 +59,27 @@ public class Render {
     }
 
     /**
+     * Base the method {@link Render#visualizeSphereNormals(Ray)} we add other sphere in scene.
+     *
+     * @return color at the intersection of a ray with objects
+     */
+    public Vector3 addMutipleObject(Ray ray,Hitable world){
+        HitRecord hitRecord = new HitRecord();
+        if(world.hit(ray,0.0,Double.MAX_VALUE,hitRecord)){
+
+            return new Vector3(hitRecord.normal.x()+1,hitRecord.normal.y()+1,hitRecord.normal.z()+1).scale(0.5);
+        }
+        return backgroundColor(ray);
+    }
+    /**
      * Set up a sphere in 3D space,and detecting whether the ray intersect with sphere.
      *
      * @param center sphere center
      * @param radius sphere radius
      * @param ray from view point to screen plane
-     * @return {@code true} when ray intersects the sphere
+     * @return {@code true} when ray intersects the sphere,otherwise return {@code false}
      */
-    public boolean hitShere(Vector3 center,double radius,Ray ray){
+    public boolean hitSphere(Vector3 center, double radius, Ray ray){
         Vector3 A = ray.getOrigin();
         Vector3 B = ray.getDirection();
         double a = B.dot(B);
@@ -63,7 +89,16 @@ public class Render {
         return discriminant > 0;
     }
 
-    public double hitPointOnShere(Vector3 center,double radius,Ray ray){
+    /**
+     * Return parameter {@code t} on the ray {@code P(t)},when ray intersects the sphere.
+     * Otherwise,retuen {@code -1}.
+     *
+     * @param center sphere center
+     * @param radius sphere radius
+     * @param ray from view point to screen plane
+     * @return {@code true} when ray intersects the sphere,otherwise,retuen {@code -1}
+     */
+    public double hitPointOnSphere(Vector3 center, double radius, Ray ray){
         Vector3 A = ray.getOrigin();
         Vector3 B = ray.getDirection();
         double a = B.dot(B);

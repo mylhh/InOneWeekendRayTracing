@@ -112,6 +112,10 @@ public class Main {
         Vector3 horizontal = new Vector3(4.0,0.0,0.0);
         Vector3 vertical = new Vector3(0.0,2.0,0.0);
         Vector3 origin = Vector3.getZeroVector();
+        HitObjectList world = new HitObjectList(2);
+        world.hitableList.add(new Sphere(new Vector3(0.0,0.0,-1.0),0.5));
+        world.hitableList.add(new Sphere(new Vector3(0.0,-100.5,-1.0),100));
+
         Image renderImage = Image.createImage(width,height,PPMFormat.PIXEL_ASCILL);
         int[] data = new int[height*width*3];
         for(int i = height-1;i >= 0 ;i--){
@@ -119,14 +123,14 @@ public class Main {
                 double u = 1.0*j/width;
                 double v = 1.0*i/height;
                 Ray ray = new Ray(origin,lowerLeftPoint.plus(horizontal.scale(u).plus(vertical.scale(v))));
-                Vector3 color = render.visualizeSphereNormals(ray);
+                Vector3 color = render.addMutipleObject(ray,world);
                 data[i*width*3+j*3] = (int)(255.999*color.r());
                 data[i*width*3+j*3+1] = (int)(255.999*color.g());
                 data[i*width*3+j*3+2] = (int)(255.999*color.b());
             }
         }
         renderImage.setData(data);
-        renderImage.save("./images/chapter5-visualize-normals.ppm");
+        renderImage.save("./images/chapter5-visualizenormals-mutipleobject.ppm");
     }
     public static void main(String[] args) {
         // chapter1();
