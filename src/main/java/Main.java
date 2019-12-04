@@ -51,27 +51,11 @@ public class Main {
         renderImage.save("./images/chapter2-helloworld-vector3.ppm");
     }
 
-
-    /**
-     * Using linear interpolation generate background,default colors are
-     * white(t=0) and bule(t=1).Reference this function:
-     * {@code blended_value=(1-t)start_value+t*end_value}.
-     *
-     * @param ray from origin(0,0,0) to screen flat
-     * @return color at the intersection of a ray and a plane
-     */
-    public static Vector3 backgroundColor(Ray ray){
-        Vector3 unitDrection = ray.getDirection().makeUnitVector();
-        double t = (unitDrection.y()+1.0) / 2;
-        Vector3 startColor = new Vector3(1.0,1.0,1.0);
-        Vector3 endColor = new Vector3(0.5,0.7,1.0);
-        return startColor.scale(1.0 - t).plus(endColor.scale(t));
-    }
-
     // rays,camera,background
     public static void chapter3(){
         int width = 200;
         int height = 100;
+        Render backgroundRender = new Render();
         Vector3 lowerLeftPoint = new Vector3(-2.0,-1.0,-1.0);
         Vector3 horizontal = new Vector3(4.0,0.0,0.0);
         Vector3 vertical = new Vector3(0.0,2.0,0.0);
@@ -83,7 +67,7 @@ public class Main {
                 double u = 1.0*j/width;
                 double v = 1.0*i/height;
                 Ray ray = new Ray(origin,lowerLeftPoint.plus(horizontal.scale(u).plus(vertical.scale(v))));
-                Vector3 color = backgroundColor(ray);
+                Vector3 color = backgroundRender.backgroundColor(ray);
                 data[i*width*3+j*3] = (int)(255.999*color.r());
                 data[i*width*3+j*3+1] = (int)(255.999*color.g());
                 data[i*width*3+j*3+2] = (int)(255.999*color.b());
@@ -93,10 +77,62 @@ public class Main {
         renderImage.save("./images/chapter3-backgroud.ppm");
     }
 
+    // add a sphere
+    public static void chapter4(){
+        int width = 200;
+        int height = 100;
+        Render backgroundRender = new Render();
+        Vector3 lowerLeftPoint = new Vector3(-2.0,-1.0,-1.0);
+        Vector3 horizontal = new Vector3(4.0,0.0,0.0);
+        Vector3 vertical = new Vector3(0.0,2.0,0.0);
+        Vector3 origin = Vector3.getZeroVector();
+        Image renderImage = Image.createImage(width,height,PPMFormat.PIXEL_ASCILL);
+        int[] data = new int[height*width*3];
+        for(int i = height-1;i >= 0 ;i--){
+            for(int j = 0;j < width;j++){
+                double u = 1.0*j/width;
+                double v = 1.0*i/height;
+                Ray ray = new Ray(origin,lowerLeftPoint.plus(horizontal.scale(u).plus(vertical.scale(v))));
+                Vector3 color = backgroundRender.addSphere(ray);
+                data[i*width*3+j*3] = (int)(255.999*color.r());
+                data[i*width*3+j*3+1] = (int)(255.999*color.g());
+                data[i*width*3+j*3+2] = (int)(255.999*color.b());
+            }
+        }
+        renderImage.setData(data);
+        renderImage.save("./images/chapter4-addshphere.ppm");
+    }
 
+    // visualize normals and multiple objects
+    public static void chapter5(){
+        int width = 200;
+        int height = 100;
+        Render render = new Render();
+        Vector3 lowerLeftPoint = new Vector3(-2.0,-1.0,-1.0);
+        Vector3 horizontal = new Vector3(4.0,0.0,0.0);
+        Vector3 vertical = new Vector3(0.0,2.0,0.0);
+        Vector3 origin = Vector3.getZeroVector();
+        Image renderImage = Image.createImage(width,height,PPMFormat.PIXEL_ASCILL);
+        int[] data = new int[height*width*3];
+        for(int i = height-1;i >= 0 ;i--){
+            for(int j = 0;j < width;j++){
+                double u = 1.0*j/width;
+                double v = 1.0*i/height;
+                Ray ray = new Ray(origin,lowerLeftPoint.plus(horizontal.scale(u).plus(vertical.scale(v))));
+                Vector3 color = render.visualizeSphereNormals(ray);
+                data[i*width*3+j*3] = (int)(255.999*color.r());
+                data[i*width*3+j*3+1] = (int)(255.999*color.g());
+                data[i*width*3+j*3+2] = (int)(255.999*color.b());
+            }
+        }
+        renderImage.setData(data);
+        renderImage.save("./images/chapter5-visualize-normals.ppm");
+    }
     public static void main(String[] args) {
-        chapter1();
-        chapter2();
-        chapter3();
+        // chapter1();
+        // chapter2();
+        // chapter3();
+        // chapter4();
+        chapter5();
     }
 }
