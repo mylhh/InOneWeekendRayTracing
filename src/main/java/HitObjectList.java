@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * The {@code HitObjectList} represent mutiple object in ray tracing scene.
@@ -27,24 +28,19 @@ public class HitObjectList implements Hitable {
      * @param ray    from view point to screen plane
      * @param tMin   min value of parameter {@code t} range
      * @param tMax   max value of parameter {@code t} range
-     * @param record hit point information
      * @return {@code true} when ray intersects the sphere,otherwise return {@code false}
      */
     @Override
-    public boolean hit(Ray ray, double tMin, double tMax, HitRecord record) {
-        boolean hitAnything = false;
-        HitRecord hitRecord = new HitRecord();
+    public Optional<HitRecord> hit(Ray ray, double tMin, double tMax) {
+        Optional<HitRecord> optionalHitRecord = Optional.empty();
         double closest = tMax;
         for(Hitable hitObject:hitableList){
-            if(hitObject.hit(ray,tMin,closest,hitRecord)){
-                hitAnything = true;
-                closest = hitRecord.t;
-                record = hitRecord;
-                // TODO
-                System.out.println(hitRecord);
+            Optional<HitRecord> eachOptional = hitObject.hit(ray,tMin,closest);
+            if(eachOptional.isPresent()){
+                closest = eachOptional.get().t;
+                optionalHitRecord = eachOptional;
             }
         }
-        //System.out.println(hitRecord);
-        return hitAnything;
+        return optionalHitRecord;
     }
 }

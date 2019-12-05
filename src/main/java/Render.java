@@ -1,3 +1,5 @@
+import java.util.Optional;
+
 /**
  * The {@code Render} class render scenes and objects.
  */
@@ -64,10 +66,10 @@ public class Render {
      * @return color at the intersection of a ray with objects
      */
     public Vector3 addMutipleObject(Ray ray,Hitable world){
-        HitRecord hitRecord = new HitRecord();
-        if(world.hit(ray,0.0,Double.MAX_VALUE,hitRecord)){
-
-            return new Vector3(hitRecord.normal.x()+1,hitRecord.normal.y()+1,hitRecord.normal.z()+1).scale(0.5);
+        Optional<HitRecord> optionalHitRecord = world.hit(ray,0.0,Double.MAX_VALUE);
+        if(optionalHitRecord.isPresent()){
+            HitRecord record = optionalHitRecord.get();
+            return new Vector3(record.normal.x()+1,record.normal.y()+1,record.normal.z()+1).scale(0.5);
         }
         return backgroundColor(ray);
     }

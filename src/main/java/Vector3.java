@@ -3,6 +3,7 @@ import java.util.Objects;
 /**
  * The {@code Vector3} class represent a 3-dimensional vector.
  * It  is a wrapper class for {@link Vector} that dimension constant three.
+ * It should be a immutable object.
  */
 
 public class Vector3 {

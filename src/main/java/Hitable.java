@@ -1,3 +1,4 @@
+import java.util.Optional;
 
 /**
  * Represent some objects that a ray might hit.Subclass must be
@@ -6,13 +7,13 @@
 public interface Hitable {
 
     /**
-     * Return whether the ray intersects the objects.
+     * Return a container {@code Optional<HitRecord>} may be contrain
+     * an information of the ray intersects the objects.
      *
      * @param ray from view point to screen plane
      * @param tMin min value of parameter {@code t} range
      * @param tMax max value of parameter {@code t} range
-     * @param record hit point information
-     * @return {@code true} when ray intersects the sphere,otherwise return {@code false}
+     * @return {@code Optional<HitRecord>} when ray intersects the objects will contain a HitRecord object
      */
-    boolean hit(Ray ray,double tMin,double tMax,HitRecord record);
+    Optional<HitRecord> hit(Ray ray, double tMin, double tMax);
 }
