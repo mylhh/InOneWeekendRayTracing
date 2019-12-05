@@ -63,7 +63,9 @@ public class Render {
     /**
      * Base the method {@link Render#visualizeSphereNormals(Ray)} we add other sphere in scene.
      *
-     * @return color at the intersection of a ray with objects
+     * @param ray
+     * @param world object list
+     * @return
      */
     public Vector3 addMutipleObject(Ray ray,Hitable world){
         Optional<HitRecord> optionalHitRecord = world.hit(ray,0.0,Double.MAX_VALUE);
@@ -73,6 +75,25 @@ public class Render {
         }
         return backgroundColor(ray);
     }
+
+    /**
+     * Base the method {@link Render#addMutipleObject(Ray, Hitable)} add diffuse materials.
+     * Using recursion to implement ray tracing.
+     *
+     * @param ray
+     * @param world world object list
+     * @return color with diffuse materials
+     */
+    public Vector3 diffuseMaterials(Ray ray,Hitable world){
+        Optional<HitRecord> optionalHitRecord = world.hit(ray,0.001,Double.MAX_VALUE);
+        if(optionalHitRecord.isPresent()){
+            HitRecord record = optionalHitRecord.get();
+            Vector3 target = record.hitPoint.plus(record.normal).plus(randomInUnitSphere());
+            return diffuseMaterials(new Ray(record.hitPoint,target.minus(record.hitPoint)),world).scale(0.5);
+        }
+        return backgroundColor(ray);
+    }
+
     /**
      * Set up a sphere in 3D space,and detecting whether the ray intersect with sphere.
      *
@@ -111,5 +132,21 @@ public class Render {
             return -1.0;
         return (-b - Math.sqrt(discriminant)) / (2.0*a);
     }
+
+    /**
+     * Generate a random vector in an unit sphere that
+     * is tangent to the hit point.
+     *
+     * @return ramdon vector3
+     */
+    public Vector3 randomInUnitSphere(){
+        Vector3 randomVector;
+        do {
+            randomVector = new Vector3(Math.random(),Math.random(),Math.random())
+                    .scale(2.0).minus(new Vector3(1.0,1.0,1.0));
+        }while (randomVector.squaredLength() >= 1.0);
+        return randomVector;
+    }
+
 
 }
