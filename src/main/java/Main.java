@@ -9,6 +9,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.Random;
+import java.util.stream.DoubleStream;
 
 
 public class Main {
@@ -132,11 +134,45 @@ public class Main {
         renderImage.setData(data);
         renderImage.save("./images/chapter5-visualizenormals-mutipleobject.ppm");
     }
+
+    // antialiasing
+    public static void chapter6(){
+        int width = 200;
+        int height = 100;
+        int samples = 100;
+        Render render = new Render();
+        Camera camera = new Camera();
+        HitObjectList world = new HitObjectList(2);
+        world.hitableList.add(new Sphere(new Vector3(0.0,0.0,-1.0),0.5));
+        world.hitableList.add(new Sphere(new Vector3(0.0,-100.5,-1.0),100));
+        Image renderImage = Image.createImage(width,height,PPMFormat.PIXEL_ASCILL);
+        int[] data = new int[height*width*3];
+
+        for(int i = height-1;i >= 0 ;i--){
+            for(int j = 0;j < width;j++){
+                Vector3 color = Vector3.getZeroVector();
+                // Average sampling
+                for(int s = 0;s < samples;s++){
+                    double u = 1.0*(j+Math.random())/width;
+                    double v = 1.0*(i+Math.random())/height;
+                    Ray ray = camera.getRay(u,v);
+                    color = color.plus(render.addMutipleObject(ray,world));
+                }
+                color = color.scale(1.0/samples);
+                data[i*width*3+j*3] = (int)(255.999*color.r());
+                data[i*width*3+j*3+1] = (int)(255.999*color.g());
+                data[i*width*3+j*3+2] = (int)(255.999*color.b());
+            }
+        }
+        renderImage.setData(data);
+        renderImage.save("./images/chapter6-antialiasing.ppm");
+    }
     public static void main(String[] args) {
         // chapter1();
         // chapter2();
         // chapter3();
         // chapter4();
-        chapter5();
+        // chapter5();
+        chapter6();
     }
 }
