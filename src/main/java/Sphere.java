@@ -6,10 +6,17 @@ import java.util.Optional;
 public class Sphere implements Hitable{
     private Vector3 center;
     private double radius;
+    private Material material;
 
     public Sphere(Vector3 center,double radius){
         this.center = center;
         this.radius = radius;
+    }
+
+    public Sphere(Vector3 center,double radius,Material material){
+        this.center = center;
+        this.radius = radius;
+        this.material = material;
     }
 
     /**
@@ -28,7 +35,7 @@ public class Sphere implements Hitable{
         double b = B.scale(2.0).dot(A.minus(center));
         double c = A.minus(center).dot(A.minus(center)) - radius*radius;
         double discriminant = b*b - 4*a*c;
-
+        // recursive exit
         if(discriminant > 0){
             double t = (-b - Math.sqrt(discriminant)) / (2.0*a);
             if(t < tMax && t > tMin){
@@ -36,6 +43,7 @@ public class Sphere implements Hitable{
                 record.t = t;
                 record.hitPoint = ray.pointAtParameter(t);
                 record.normal = record.hitPoint.minus(center).makeUnitVector();
+                record.material = this.material;
                 Optional<HitRecord> optionalHitRecord = Optional.of(record);
                 return optionalHitRecord;
             }
@@ -45,6 +53,7 @@ public class Sphere implements Hitable{
                 record.t = t;
                 record.hitPoint = ray.pointAtParameter(t);
                 record.normal = record.hitPoint.minus(center).makeUnitVector();
+                record.material = this.material;
                 Optional<HitRecord> optionalHitRecord = Optional.of(record);
                 return optionalHitRecord;
             }

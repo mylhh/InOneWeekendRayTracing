@@ -8,6 +8,7 @@ public class HitRecord {
     double t;
     Vector3 hitPoint;
     Vector3 normal;
+    Material material;
 
     @Override
     public String toString() {
@@ -15,7 +16,7 @@ public class HitRecord {
                 "t=" + t +
                 ", hitPoint=" + hitPoint +
                 ", normal=" + normal +
+                ", material=" + material +
                 '}';
     }
-
 }

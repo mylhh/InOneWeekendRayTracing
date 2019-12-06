@@ -1,9 +1,13 @@
+import javafx.util.Pair;
+
 import java.util.Optional;
 
 /**
  * The {@code Render} class render scenes and objects.
  */
 public class Render {
+
+    public final static int MAX_OF_RECURSION = 50;
     Vector3 startColor;
     Vector3 endColor;
 
@@ -37,9 +41,7 @@ public class Render {
         if(hitSphere(new Vector3(0,0,1),0.5,ray)){
             return new Vector3(1,0,0);
         }
-        Vector3 unitDrection = ray.getDirection().makeUnitVector();
-        double t = (unitDrection.y()+1.0) / 2;
-        return this.startColor.scale(1.0 - t).plus(this.endColor.scale(t));
+        return backgroundColor(ray);
     }
 
     /**
@@ -55,9 +57,7 @@ public class Render {
             Vector3 normal = ray.pointAtParameter(t).minus(new Vector3(0.0,0.0,-1.0)).makeUnitVector();
             return new Vector3(normal.x()+1,normal.y()+1,normal.z()+1).scale(0.5);
         }
-        Vector3 unitDrection = ray.getDirection().makeUnitVector();
-        t = (unitDrection.y()+1.0) / 2;
-        return this.startColor.scale(1.0 - t).plus(this.endColor.scale(t));
+        return backgroundColor(ray);
     }
 
     /**
@@ -90,6 +90,30 @@ public class Render {
             HitRecord record = optionalHitRecord.get();
             Vector3 target = record.hitPoint.plus(record.normal).plus(randomInUnitSphere());
             return diffuseMaterials(new Ray(record.hitPoint,target.minus(record.hitPoint)),world).scale(0.5);
+        }
+        return backgroundColor(ray);
+    }
+
+    /**
+     * Add metal materials.
+     * @param ray
+     * @param world world object list
+     * @param depth recursion depth
+     * @return color
+     */
+    public Vector3 metalMaterials(Ray ray,Hitable world,int depth){
+        Optional<HitRecord> optionalHitRecord = world.hit(ray,0.001,Double.MAX_VALUE);
+        if(optionalHitRecord.isPresent()){
+            HitRecord record = optionalHitRecord.get();
+            Optional<Pair<Vector3,Ray>> pair = record.material.scatter(ray,record);
+            if(depth < MAX_OF_RECURSION && pair.isPresent()){
+                Vector3 attenuuation = pair.get().getKey();
+                Ray scattered = pair.get().getValue();
+                return attenuuation.vectorMultiplication(metalMaterials(scattered,world,depth+1));
+            }else {
+                return Vector3.getZeroVector();
+            }
+
         }
         return backgroundColor(ray);
     }
@@ -139,7 +163,7 @@ public class Render {
      *
      * @return ramdon vector3
      */
-    public Vector3 randomInUnitSphere(){
+    public static Vector3 randomInUnitSphere(){
         Vector3 randomVector;
         do {
             randomVector = new Vector3(Math.random(),Math.random(),Math.random())
@@ -147,6 +171,7 @@ public class Render {
         }while (randomVector.squaredLength() >= 1.0);
         return randomVector;
     }
+
 
 
 }
