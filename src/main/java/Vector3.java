@@ -208,6 +208,12 @@ public class Vector3 {
         return new Vector3((u2*v3 - u3*v2 + 0.0),(u3*v1 - u1*v3 + 0.0),(u1*v2 - u2*v1 + 0.0));
     }
 
+    /**
+     * Return new {@code Vector3} that multiplying the components of two vectors.
+     *
+     * @param that the other vector
+     * @return
+     */
     public Vector3 vectorMultiplication(Vector3 that){
         return new Vector3(this.x()*that.x(),this.y()*that.y(),this.z()*that.z());
     }

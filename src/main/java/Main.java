@@ -237,6 +237,43 @@ public class Main {
         renderImage.setData(data);
         renderImage.save("./images/chapter8-metalmaterials.ppm");
     }
+
+    // dielectric materials
+    public static void chapter9(){
+        int width = 200;
+        int height = 100;
+        int samples = 100;
+        Render render = new Render();
+        Camera camera = new Camera();
+        HitObjectList world = new HitObjectList(5);
+        world.hitableList.add(new Sphere(new Vector3(0.0,0.0,-1.0),0.5,new Lambertian(new Vector3(0.1,0.2,0.5))));
+        world.hitableList.add(new Sphere(new Vector3(0.0,-100.5,-1.0),100,new Lambertian(new Vector3(0.8,0.8,0.0))));
+        world.hitableList.add(new Sphere(new Vector3(1.0,0.0,-1.0),0.5,new Metal(new Vector3(0.8,0.6,0.2),0.3)));
+        world.hitableList.add(new Sphere(new Vector3(-1.0,0.0,-1.0),0.5,new Dielectric(1.5)));
+        world.hitableList.add(new Sphere(new Vector3(-1.0,0.0,-1.0),-0.45,new Dielectric(1.5)));
+        Image renderImage = Image.createImage(width,height,PPMFormat.PIXEL_ASCILL);
+        int[] data = new int[height*width*3];
+        for(int i = height-1;i >= 0 ;i--){
+            for(int j = 0;j < width;j++){
+                Vector3 color = Vector3.getZeroVector();
+                // Average sampling
+                for(int s = 0;s < samples;s++){
+                    double u = 1.0*(j+Math.random())/width;
+                    double v = 1.0*(i+Math.random())/height;
+                    Ray ray = camera.getRay(u,v);
+                    color = color.plus(render.metalMaterials(ray,world,0));
+                }
+                color = color.scale(1.0/samples);
+                // gamma correction
+                color = new Vector3(Math.sqrt(color.r()),Math.sqrt(color.g()),Math.sqrt(color.b()));
+                data[i*width*3+j*3] = (int)(255.999*color.r());
+                data[i*width*3+j*3+1] = (int)(255.999*color.g());
+                data[i*width*3+j*3+2] = (int)(255.999*color.b());
+            }
+        }
+        renderImage.setData(data);
+        renderImage.save("./images/chapter9-dielectricmaterials.ppm");
+    }
     public static void main(String[] args) {
         // chapter1();
         // chapter2();
@@ -245,6 +282,7 @@ public class Main {
         // chapter5();
         // chapter6();
         // chapter7();
-        chapter8();
+        // chapter8();
+        chapter9();
     }
 }

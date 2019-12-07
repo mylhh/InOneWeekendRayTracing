@@ -42,7 +42,7 @@ public class Sphere implements Hitable{
                 HitRecord record = new HitRecord();
                 record.t = t;
                 record.hitPoint = ray.pointAtParameter(t);
-                record.normal = record.hitPoint.minus(center).makeUnitVector();
+                record.normal = record.hitPoint.minus(center).scale(1.0/this.radius);
                 record.material = this.material;
                 Optional<HitRecord> optionalHitRecord = Optional.of(record);
                 return optionalHitRecord;
@@ -52,7 +52,7 @@ public class Sphere implements Hitable{
                 HitRecord record = new HitRecord();
                 record.t = t;
                 record.hitPoint = ray.pointAtParameter(t);
-                record.normal = record.hitPoint.minus(center).makeUnitVector();
+                record.normal = record.hitPoint.minus(center).scale(1.0/this.radius);
                 record.material = this.material;
                 Optional<HitRecord> optionalHitRecord = Optional.of(record);
                 return optionalHitRecord;
