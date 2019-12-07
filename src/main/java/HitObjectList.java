@@ -43,4 +43,33 @@ public class HitObjectList implements Hitable {
         }
         return optionalHitRecord;
     }
+
+    static Hitable randomScene(){
+        int n = 50;
+        HitObjectList hitObjectList = new HitObjectList(n + 1);
+        List<Hitable> list = hitObjectList.hitableList;
+        list.add(new Sphere(new Vector3(0.0,-1000.0,0.0),1000.0,new Lambertian(new Vector3(0.5,0.5,0.5))));
+        int i = 1;
+        for (int a = -11;a < 11;a++){
+            for (int b = -11;b < 11;b++){
+                double chooseMat = Math.random();
+                Vector3 center = new Vector3(a+0.9*Math.random(),0.2,b+0.9*Math.random());
+                if(center.minus(new Vector3(4.0,0.2,0)).length() > 0.9){
+                    if(chooseMat < 0.8){
+                        list.add(new Sphere(center,0.2,
+                                new Lambertian(new Vector3(Math.random()*Math.random(),Math.random()*Math.random(),Math.random()*Math.random()))));
+                    }else if(chooseMat < 0.95){
+                        list.add(new Sphere(center,0.2,
+                                new Metal(new Vector3(0.5*(1+Math.random()),0.5*(1+Math.random()),0.5*(1+Math.random())),0.5*Math.random())));
+                    }else {
+                        list.add(new Sphere(center,0.2,new Dielectric(1.5)));
+                    }
+                }
+            }
+        }
+        list.add(new Sphere(new Vector3(0.0,1.0,0.0),1.0,new Dielectric(1.5)));
+        list.add(new Sphere(new Vector3(-4.0,1.0,0.0),1.0,new Lambertian(new Vector3(0.4,0.2,0.1))));
+        list.add(new Sphere(new Vector3(4.0,1.0,0.0),1.0,new Metal(new Vector3(0.7,0.6,0.5),0.0)));
+        return hitObjectList;
+    }
 }
