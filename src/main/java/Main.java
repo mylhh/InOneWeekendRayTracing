@@ -312,13 +312,53 @@ public class Main {
         renderImage.save("./images/chapter10-positionale-camera.ppm");
     }
 
+    // defocus blur
+    public static void chapter11(){
+        int width = 200;
+        int height = 100;
+        int samples = 100;
+        Render render = new Render();
+        Vector3 lookfrom = new Vector3(3.0,3.0,2.0);
+        Vector3 lookat = new Vector3(0.0,0.0,-1.0);
+        double distTofocus = lookfrom.minus(lookat).length();
+        Camera camera = new Camera(lookfrom,lookat,new Vector3(0.0,1.0,0.0),20.0,1.0*width / height,2.0,distTofocus);
+        HitObjectList world = new HitObjectList(5);
+        world.hitableList.add(new Sphere(new Vector3(0.0,0.0,-1.0),0.5,new Lambertian(new Vector3(0.1,0.2,0.5))));
+        world.hitableList.add(new Sphere(new Vector3(0.0,-100.5,-1.0),100,new Lambertian(new Vector3(0.8,0.8,0.0))));
+        world.hitableList.add(new Sphere(new Vector3(1.0,0.0,-1.0),0.5,new Metal(new Vector3(0.8,0.6,0.2),0.3)));
+        world.hitableList.add(new Sphere(new Vector3(-1.0,0.0,-1.0),0.5,new Dielectric(1.5)));
+        world.hitableList.add(new Sphere(new Vector3(-1.0,0.0,-1.0),-0.45,new Dielectric(1.5)));
+        Image renderImage = Image.createImage(width,height,PPMFormat.PIXEL_ASCILL);
+        int[] data = new int[height*width*3];
+        for(int i = height-1;i >= 0 ;i--){
+            for(int j = 0;j < width;j++){
+                Vector3 color = Vector3.getZeroVector();
+                // Average sampling
+                for(int s = 0;s < samples;s++){
+                    double u = 1.0*(j+Math.random())/width;
+                    double v = 1.0*(i+Math.random())/height;
+                    Ray ray = camera.getRayDefocus(u,v);
+                    color = color.plus(render.metalMaterials(ray,world,0));
+                }
+                color = color.scale(1.0/samples);
+                // gamma correction
+                color = new Vector3(Math.sqrt(color.r()),Math.sqrt(color.g()),Math.sqrt(color.b()));
+                data[i*width*3+j*3] = (int)(255.999*color.r());
+                data[i*width*3+j*3+1] = (int)(255.999*color.g());
+                data[i*width*3+j*3+2] = (int)(255.999*color.b());
+            }
+        }
+        renderImage.setData(data);
+        renderImage.save("./images/chapter11-defocusblur.ppm");
+    }
+
     // lots of random spheres
     public static void chapter12(){
         int width = 500;
         int height = 250;
-        int samples = 50;
+        int samples = 100;
         Render render = new Render();
-        Camera camera = new Camera(new Vector3(-2.0,2.0,1.0),new Vector3(0.0,0.0,-1.0),new Vector3(0.0,1.0,0.0),90.0,1.0*width / height);
+        Camera camera = new Camera(new Vector3(-2.5,1.5,2),new Vector3(0.0,0.0,-2.0),new Vector3(0.0,1.0,0.0),90.0,1.0*width / height);
         Hitable world = HitObjectList.randomScene();
         Image renderImage = Image.createImage(width,height,PPMFormat.PIXEL_ASCILL);
         int[] data = new int[height*width*3];
@@ -354,6 +394,7 @@ public class Main {
         // chapter8();
         // chapter9();
         // chapter10();
-        chapter12();
+        // chapter11();
+        // chapter12();
     }
 }
