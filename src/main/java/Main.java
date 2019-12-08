@@ -12,7 +12,6 @@ import java.io.Writer;
 import java.util.Random;
 import java.util.stream.DoubleStream;
 
-
 public class Main {
 
     // graphcies hello world
@@ -32,7 +31,7 @@ public class Main {
             }
         }
         renderImage.setData(data);
-        renderImage.save("./images/chapter1-helloworld.ppm");
+        renderImage.save("./output/chapter1-helloworld.ppm");
     }
 
     // use Vector3
@@ -50,7 +49,7 @@ public class Main {
             }
         }
         renderImage.setData(data);
-        renderImage.save("./images/chapter2-helloworld-vector3.ppm");
+        renderImage.save("./output/chapter2-helloworld-vector3.ppm");
     }
 
     // rays,camera,background
@@ -76,7 +75,7 @@ public class Main {
             }
         }
         renderImage.setData(data);
-        renderImage.save("./images/chapter3-backgroud.ppm");
+        renderImage.save("./output/chapter3-backgroud.ppm");
     }
 
     // add a sphere
@@ -102,7 +101,7 @@ public class Main {
             }
         }
         renderImage.setData(data);
-        renderImage.save("./images/chapter4-addshphere.ppm");
+        renderImage.save("./output/chapter4-addshphere.ppm");
     }
 
     // visualize normals and multiple objects
@@ -132,7 +131,7 @@ public class Main {
             }
         }
         renderImage.setData(data);
-        renderImage.save("./images/chapter5-visualizenormals-mutipleobject.ppm");
+        renderImage.save("./output/chapter5-visualizenormals-mutipleobject.ppm");
     }
 
     // antialiasing
@@ -165,7 +164,7 @@ public class Main {
             }
         }
         renderImage.setData(data);
-        renderImage.save("./images/chapter6-antialiasing.ppm");
+        renderImage.save("./output/chapter6-antialiasing.ppm");
     }
 
     // diffuse materials
@@ -199,7 +198,7 @@ public class Main {
             }
         }
         renderImage.setData(data);
-        renderImage.save("./images/chapter7-diffusematerials.ppm");
+        renderImage.save("./output/chapter7-diffusematerials.ppm");
     }
 
     // diffuse materials
@@ -212,8 +211,8 @@ public class Main {
         HitObjectList world = new HitObjectList(4);
         world.hitableList.add(new Sphere(new Vector3(0.0,0.0,-1.0),0.5,new Lambertian(new Vector3(0.8,0.3,0.3))));
         world.hitableList.add(new Sphere(new Vector3(0.0,-100.5,-1.0),100,new Lambertian(new Vector3(0.8,0.8,0.0))));
-        world.hitableList.add(new Sphere(new Vector3(1.0,0.0,-1.0),0.5,new Metal(new Vector3(0.8,0.6,0.2),0.3)));
-        world.hitableList.add(new Sphere(new Vector3(-1.0,0.0,-1.0),0.5,new Metal(new Vector3(0.8,0.8,0.8),1.0)));
+        world.hitableList.add(new Sphere(new Vector3(1.0,0.0,-1.0),0.5,new Metal(new Vector3(0.8,0.6,0.2),1.0)));
+        world.hitableList.add(new Sphere(new Vector3(-1.0,0.0,-1.0),0.5,new Metal(new Vector3(0.8,0.8,0.8),0.3)));
         Image renderImage = Image.createImage(width,height,PPMFormat.PIXEL_ASCILL);
         int[] data = new int[height*width*3];
         for(int i = height-1;i >= 0 ;i--){
@@ -235,7 +234,7 @@ public class Main {
             }
         }
         renderImage.setData(data);
-        renderImage.save("./images/chapter8-metalmaterials.ppm");
+        renderImage.save("./output/chapter8-metalmaterials.ppm");
     }
 
     // dielectric materials
@@ -272,7 +271,7 @@ public class Main {
             }
         }
         renderImage.setData(data);
-        renderImage.save("./images/chapter9-dielectricmaterials.ppm");
+        renderImage.save("./output/chapter9-dielectricmaterials.ppm");
     }
 
     // positionale camera
@@ -309,7 +308,7 @@ public class Main {
             }
         }
         renderImage.setData(data);
-        renderImage.save("./images/chapter10-positionale-camera.ppm");
+        renderImage.save("./output/chapter10-positionale-camera.ppm");
     }
 
     // defocus blur
@@ -349,7 +348,7 @@ public class Main {
             }
         }
         renderImage.setData(data);
-        renderImage.save("./images/chapter11-defocusblur.ppm");
+        renderImage.save("./output/chapter11-defocusblur.ppm");
     }
 
     // lots of random spheres
@@ -381,20 +380,21 @@ public class Main {
             }
         }
         renderImage.setData(data);
-        renderImage.save("./images/chapter12-lotsofrandomspheres.ppm");
+        renderImage.save("./output/chapter12-lotsofrandomspheres.ppm");
     }
+
     public static void main(String[] args) {
-        // chapter1();
-        // chapter2();
-        // chapter3();
-        // chapter4();
-        // chapter5();
-        // chapter6();
-        // chapter7();
-        // chapter8();
-        // chapter9();
-        // chapter10();
-        // chapter11();
-        // chapter12();
+         // chapter1();
+         // chapter2();
+         // chapter3();
+         // chapter4();
+         // chapter5();
+         // chapter6();
+         // chapter7();
+         // chapter8();
+         // chapter9();
+         // chapter10();
+         // chapter11();
+         // chapter12();
     }
 }
