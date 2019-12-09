@@ -353,11 +353,14 @@ public class Main {
 
     // lots of random spheres
     public static void chapter12(){
-        int width = 500;
-        int height = 250;
+        int width = 1000;
+        int height = 500;
         int samples = 100;
+        Vector3 lookfrom = new Vector3(-2.0,1.2,2.7);
+        Vector3 lookat = new Vector3(0.0,0.0,-2.0);
+        double distTofocus = lookfrom.minus(lookat).length();
         Render render = new Render();
-        Camera camera = new Camera(new Vector3(-2.5,1.5,2),new Vector3(0.0,0.0,-2.0),new Vector3(0.0,1.0,0.0),90.0,1.0*width / height);
+        Camera camera = new Camera(lookfrom,lookat,new Vector3(0.0,1.0,0.0),90.0,1.0*width / height,0.01,distTofocus);
         Hitable world = HitObjectList.randomScene();
         Image renderImage = Image.createImage(width,height,PPMFormat.PIXEL_ASCILL);
         int[] data = new int[height*width*3];
@@ -368,7 +371,7 @@ public class Main {
                 for(int s = 0;s < samples;s++){
                     double u = 1.0*(j+Math.random())/width;
                     double v = 1.0*(i+Math.random())/height;
-                    Ray ray = camera.getRay(u,v);
+                    Ray ray = camera.getRayDefocus(u,v);
                     color = color.plus(render.metalMaterials(ray,world,0));
                 }
                 color = color.scale(1.0/samples);

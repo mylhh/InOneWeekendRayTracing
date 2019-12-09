@@ -49,7 +49,7 @@ public class HitObjectList implements Hitable {
         HitObjectList hitObjectList = new HitObjectList(n + 1);
         List<Hitable> list = hitObjectList.hitableList;
         list.add(new Sphere(new Vector3(0.0,-1000.0,0.0),1000.0,new Lambertian(new Vector3(0.5,0.5,0.5))));
-        int i = 1;
+
         for (int a = -11;a < 11;a++){
             for (int b = -11;b < 11;b++){
                 double chooseMat = Math.random();
@@ -68,9 +68,9 @@ public class HitObjectList implements Hitable {
             }
         }
 
-        list.add(new Sphere(new Vector3(-2.0,1.0,0.0),1.0,new Dielectric(1.5)));
-        list.add(new Sphere(new Vector3(0.0,1.0,0.0),1.0,new Lambertian(new Vector3(0.4,0.2,0.1))));
-        list.add(new Sphere(new Vector3(2.0,1.0,0.0),1.0,new Metal(new Vector3(0.7,0.6,0.5),0.0)));
+        list.add(new Sphere(new Vector3(-2.5,1.0,0.0),1.0,new Metal(new Vector3(0.7,0.6,0.5),0.0)));
+        list.add(new Sphere(new Vector3(0.0,1.0,0.0),1.0,new Dielectric(1.8)));
+        list.add(new Sphere(new Vector3(2.5,1.0,0.0),1.0,new Lambertian(new Vector3(0.4,0.2,0.1))));
         return hitObjectList;
     }
 }
