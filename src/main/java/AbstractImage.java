@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.Writer;
 
 public abstract class AbstractImage {
+    public static final int OPAQUE = 255;
+
     public int width = 0;
     public int height = 0;
     public int[] data = null;
@@ -44,8 +46,13 @@ public abstract class AbstractImage {
         this.data[index] = argb;
     }
 
+    public void setPixelRGB(int index,Vector3 color){
+        int red = (int)(255.999*color.r());
+        int green = (int)(255.999*color.g());
+        int blue = (int)(255.999*color.b());
+        this.setPixelARGB(index,Utils.to4ByteARGB(red,green,blue,OPAQUE));
+    }
+
     abstract void save(File outputFile);
-
-
 
 }

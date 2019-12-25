@@ -34,10 +34,7 @@ public class Main {
         for(int i = height-1;i >= 0 ;i--){
             for(int j = 0;j < width;j++){
                 Vector3 color = new Vector3(1.0* j / width,1.0* i / height,0.2);
-                int red = (int)(255.999*color.r());
-                int green = (int)(255.999*color.g());
-                int blue = (int)(255.999*color.b());
-                renderImage.setPixelARGB(i*width+j,Utils.to4ByteARGB(red,green,blue,JPNG.OPAQUE));
+                renderImage.setPixelRGB(i*width+j,color);
             }
         }
         renderImage.save("./output/chapter2-helloworld-vector3.png");
@@ -59,10 +56,7 @@ public class Main {
                 double v = 1.0*i/height;
                 Ray ray = new Ray(origin,lowerLeftPoint.plus(horizontal.scale(u).plus(vertical.scale(v))));
                 Vector3 color = backgroundRender.backgroundColor(ray);
-                int red = (int)(255.999*color.r());
-                int green = (int)(255.999*color.g());
-                int blue = (int)(255.999*color.b());
-                renderImage.setPixelARGB(i*width+j,Utils.to4ByteARGB(red,green,blue,JPNG.OPAQUE));
+                renderImage.setPixelRGB(i*width+j,color);
             }
         }
         renderImage.save("./output/chapter3-backgroud.png");
@@ -84,10 +78,7 @@ public class Main {
                 double v = 1.0*i/height;
                 Ray ray = new Ray(origin,lowerLeftPoint.plus(horizontal.scale(u).plus(vertical.scale(v))));
                 Vector3 color = backgroundRender.addSphere(ray);
-                int red = (int)(255.999*color.r());
-                int green = (int)(255.999*color.g());
-                int blue = (int)(255.999*color.b());
-                renderImage.setPixelARGB(i*width+j,Utils.to4ByteARGB(red,green,blue,JPNG.OPAQUE));
+                renderImage.setPixelRGB(i*width+j,color);
             }
         }
         renderImage.save("./output/chapter4-addshphere.png");
@@ -112,10 +103,7 @@ public class Main {
                 double v = 1.0*i/height;
                 Ray ray = new Ray(origin,lowerLeftPoint.plus(horizontal.scale(u).plus(vertical.scale(v))));
                 Vector3 color = render.addMutipleObject(ray,world);
-                int red = (int)(255.999*color.r());
-                int green = (int)(255.999*color.g());
-                int blue = (int)(255.999*color.b());
-                renderImage.setPixelARGB(i*width+j,Utils.to4ByteARGB(red,green,blue,JPNG.OPAQUE));
+                renderImage.setPixelRGB(i*width+j,color);
             }
         }
         renderImage.save("./output/chapter5-visualizenormals-mutipleobject.png");
@@ -143,10 +131,7 @@ public class Main {
                     color = color.plus(render.addMutipleObject(ray,world));
                 }
                 color = color.scale(1.0/samples);
-                int red = (int)(255.999*color.r());
-                int green = (int)(255.999*color.g());
-                int blue = (int)(255.999*color.b());
-                renderImage.setPixelARGB(i*width+j,Utils.to4ByteARGB(red,green,blue,JPNG.OPAQUE));
+                renderImage.setPixelRGB(i*width+j,color);
             }
         }
         renderImage.save("./output/chapter6-antialiasing.png");
@@ -175,10 +160,7 @@ public class Main {
                 }
                 color = color.scale(1.0/samples);
                 color = new Vector3(Math.sqrt(color.r()),Math.sqrt(color.g()),Math.sqrt(color.b()));
-                int red = (int)(255.999*color.r());
-                int green = (int)(255.999*color.g());
-                int blue = (int)(255.999*color.b());
-                renderImage.setPixelARGB(i*width+j,Utils.to4ByteARGB(red,green,blue,JPNG.OPAQUE));
+                renderImage.setPixelRGB(i*width+j,color);
             }
         }
         renderImage.save("./output/chapter7-diffusematerials.png");
@@ -210,10 +192,7 @@ public class Main {
                 color = color.scale(1.0/samples);
                 // gamma correction
                 color = new Vector3(Math.sqrt(color.r()),Math.sqrt(color.g()),Math.sqrt(color.b()));
-                int red = (int)(255.999*color.r());
-                int green = (int)(255.999*color.g());
-                int blue = (int)(255.999*color.b());
-                renderImage.setPixelARGB(i*width+j,Utils.to4ByteARGB(red,green,blue,JPNG.OPAQUE));
+                renderImage.setPixelRGB(i*width+j,color);
             }
         }
         renderImage.save("./output/chapter8-metalmaterials.png");
@@ -246,10 +225,7 @@ public class Main {
                 color = color.scale(1.0/samples);
                 // gamma correction
                 color = new Vector3(Math.sqrt(color.r()),Math.sqrt(color.g()),Math.sqrt(color.b()));
-                int red = (int)(255.999*color.r());
-                int green = (int)(255.999*color.g());
-                int blue = (int)(255.999*color.b());
-                renderImage.setPixelARGB(i*width+j,Utils.to4ByteARGB(red,green,blue,JPNG.OPAQUE));
+                renderImage.setPixelRGB(i*width+j,color);
             }
         }
         renderImage.save("./output/chapter9-dielectricmaterials.png");
@@ -282,10 +258,7 @@ public class Main {
                 color = color.scale(1.0/samples);
                 // gamma correction
                 color = new Vector3(Math.sqrt(color.r()),Math.sqrt(color.g()),Math.sqrt(color.b()));
-                int red = (int)(255.999*color.r());
-                int green = (int)(255.999*color.g());
-                int blue = (int)(255.999*color.b());
-                renderImage.setPixelARGB(i*width+j,Utils.to4ByteARGB(red,green,blue,JPNG.OPAQUE));
+                renderImage.setPixelRGB(i*width+j,color);
             }
         }
         renderImage.save("./output/chapter10-positionale-camera.png");
@@ -321,10 +294,7 @@ public class Main {
                 color = color.scale(1.0/samples);
                 // gamma correction
                 color = new Vector3(Math.sqrt(color.r()),Math.sqrt(color.g()),Math.sqrt(color.b()));
-                int red = (int)(255.999*color.r());
-                int green = (int)(255.999*color.g());
-                int blue = (int)(255.999*color.b());
-                renderImage.setPixelARGB(i*width+j,Utils.to4ByteARGB(red,green,blue,JPNG.OPAQUE));
+                renderImage.setPixelRGB(i*width+j,color);
             }
         }
         renderImage.save("./output/chapter11-defocusblur.png");
@@ -355,10 +325,7 @@ public class Main {
                 color = color.scale(1.0/samples);
                 // gamma correction
                 color = new Vector3(Math.sqrt(color.r()),Math.sqrt(color.g()),Math.sqrt(color.b()));
-                int red = (int)(255.999*color.r());
-                int green = (int)(255.999*color.g());
-                int blue = (int)(255.999*color.b());
-                renderImage.setPixelARGB(i*width+j,Utils.to4ByteARGB(red,green,blue,JPNG.OPAQUE));
+                renderImage.setPixelRGB(i*width+j,color);
             }
         }
         renderImage.save("./output/chapter12-lotsofrandomspheres.png");
