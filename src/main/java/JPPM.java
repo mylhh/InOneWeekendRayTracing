@@ -12,7 +12,7 @@ public class JPPM extends AbstractImage {
         super(width,height);
     }
 
-    public static JPPM createImage(int width, int height, ImageFormatEnum type){
+    public static JPPM createImage(int width, int height){
        return new JPPM(width,height);
     }
 
@@ -26,9 +26,10 @@ public class JPPM extends AbstractImage {
 
             for(int i = 0;i<this.height;i++){
                 for(int j = 0;j<this.width;j++){
-                    sb.append(data[(height - 1 - i)*width*3+j*3]).append(' ')
-                      .append(data[(height - 1 - i)*width*3+j*3+1]).append(' ')
-                      .append(data[(height - 1 - i)*width*3+j*3+2]).append(' ');
+                    int[] rgb = Utils.decodeToRGB(data[(height - 1 - i)*width+j]);
+                    sb.append(rgb[0]).append(' ')
+                      .append(rgb[1]).append(' ')
+                      .append(rgb[2]).append(' ');
                 }
                 sb.append('\n');
             }

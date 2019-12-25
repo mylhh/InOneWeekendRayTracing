@@ -11,36 +11,36 @@ public class Main {
     public static void chapter1(){
         int width = 200;
         int height = 100;
-        JPNG renderImage = JPNG.createImage(width,height, ImageFormatEnum.PPM_PIXEL_ASCILL);
-        int[] data = new int[height*width*3];
+        JPNG renderImage = JPNG.createImage(width,height);
         for(int i = height-1;i >= 0 ;i--){
             for(int j = 0;j < width;j++){
                 double r = 1.0* j / width;
                 double g = 1.0* i / height;
                 double b = 0.2;
-                data[i*width*3+j*3] = (int)(255.999*r);
-                data[i*width*3+j*3+1] = (int)(255.999*g);
-                data[i*width*3+j*3+2] = (int)(255.999*b);
+                int red = (int)(255.999*r);
+                int green = (int)(255.999*g);
+                int blue = (int)(255.999*b);
+                renderImage.setPixelARGB(i*width+j,Utils.to4ByteARGB(red,green,blue,JPNG.OPAQUE));
             }
         }
-        renderImage.save(data,"./output/chapter1-helloworld.png");
+        renderImage.save("./output/chapter1-helloworld.png");
     }
 
     // use Vector3
     public static void chapter2(){
         int width = 200;
         int height = 100;
-        JPNG renderImage = JPNG.createImage(width,height, ImageFormatEnum.PPM_PIXEL_ASCILL);
-        int[] data = new int[height*width*3];
+        JPNG renderImage = JPNG.createImage(width,height);
         for(int i = height-1;i >= 0 ;i--){
             for(int j = 0;j < width;j++){
                 Vector3 color = new Vector3(1.0* j / width,1.0* i / height,0.2);
-                data[i*width*3+j*3] = (int)(255.999*color.r());
-                data[i*width*3+j*3+1] = (int)(255.999*color.g());
-                data[i*width*3+j*3+2] = (int)(255.999*color.b());
+                int red = (int)(255.999*color.r());
+                int green = (int)(255.999*color.g());
+                int blue = (int)(255.999*color.b());
+                renderImage.setPixelARGB(i*width+j,Utils.to4ByteARGB(red,green,blue,JPNG.OPAQUE));
             }
         }
-        renderImage.save(data,"./output/chapter2-helloworld-vector3.png");
+        renderImage.save("./output/chapter2-helloworld-vector3.png");
     }
 
     // rays,camera,background
@@ -52,20 +52,20 @@ public class Main {
         Vector3 horizontal = new Vector3(4.0,0.0,0.0);
         Vector3 vertical = new Vector3(0.0,2.0,0.0);
         Vector3 origin = Vector3.getZeroVector();
-        JPNG renderImage = JPNG.createImage(width,height, ImageFormatEnum.PPM_PIXEL_ASCILL);
-        int[] data = new int[height*width*3];
+        JPNG renderImage = JPNG.createImage(width,height);
         for(int i = height-1;i >= 0 ;i--){
             for(int j = 0;j < width;j++){
                 double u = 1.0*j/width;
                 double v = 1.0*i/height;
                 Ray ray = new Ray(origin,lowerLeftPoint.plus(horizontal.scale(u).plus(vertical.scale(v))));
                 Vector3 color = backgroundRender.backgroundColor(ray);
-                data[i*width*3+j*3] = (int)(255.999*color.r());
-                data[i*width*3+j*3+1] = (int)(255.999*color.g());
-                data[i*width*3+j*3+2] = (int)(255.999*color.b());
+                int red = (int)(255.999*color.r());
+                int green = (int)(255.999*color.g());
+                int blue = (int)(255.999*color.b());
+                renderImage.setPixelARGB(i*width+j,Utils.to4ByteARGB(red,green,blue,JPNG.OPAQUE));
             }
         }
-        renderImage.save(data,"./output/chapter3-backgroud.png");
+        renderImage.save("./output/chapter3-backgroud.png");
     }
 
     // add a sphere
@@ -77,20 +77,20 @@ public class Main {
         Vector3 horizontal = new Vector3(4.0,0.0,0.0);
         Vector3 vertical = new Vector3(0.0,2.0,0.0);
         Vector3 origin = Vector3.getZeroVector();
-        JPNG renderImage = JPNG.createImage(width,height, ImageFormatEnum.PPM_PIXEL_ASCILL);
-        int[] data = new int[height*width*3];
+        JPNG renderImage = JPNG.createImage(width,height);
         for(int i = height-1;i >= 0 ;i--){
             for(int j = 0;j < width;j++){
                 double u = 1.0*j/width;
                 double v = 1.0*i/height;
                 Ray ray = new Ray(origin,lowerLeftPoint.plus(horizontal.scale(u).plus(vertical.scale(v))));
                 Vector3 color = backgroundRender.addSphere(ray);
-                data[i*width*3+j*3] = (int)(255.999*color.r());
-                data[i*width*3+j*3+1] = (int)(255.999*color.g());
-                data[i*width*3+j*3+2] = (int)(255.999*color.b());
+                int red = (int)(255.999*color.r());
+                int green = (int)(255.999*color.g());
+                int blue = (int)(255.999*color.b());
+                renderImage.setPixelARGB(i*width+j,Utils.to4ByteARGB(red,green,blue,JPNG.OPAQUE));
             }
         }
-        renderImage.save(data,"./output/chapter4-addshphere.png");
+        renderImage.save("./output/chapter4-addshphere.png");
     }
 
     // visualize normals and multiple objects
@@ -105,21 +105,20 @@ public class Main {
         HitObjectList world = new HitObjectList(2);
         world.hitableList.add(new Sphere(new Vector3(0.0,0.0,-1.0),0.5));
         world.hitableList.add(new Sphere(new Vector3(0.0,-100.5,-1.0),100));
-
-        JPNG renderImage = JPNG.createImage(width,height, ImageFormatEnum.PPM_PIXEL_ASCILL);
-        int[] data = new int[height*width*3];
+        JPNG renderImage = JPNG.createImage(width,height);
         for(int i = height-1;i >= 0 ;i--){
             for(int j = 0;j < width;j++){
                 double u = 1.0*j/width;
                 double v = 1.0*i/height;
                 Ray ray = new Ray(origin,lowerLeftPoint.plus(horizontal.scale(u).plus(vertical.scale(v))));
                 Vector3 color = render.addMutipleObject(ray,world);
-                data[i*width*3+j*3] = (int)(255.999*color.r());
-                data[i*width*3+j*3+1] = (int)(255.999*color.g());
-                data[i*width*3+j*3+2] = (int)(255.999*color.b());
+                int red = (int)(255.999*color.r());
+                int green = (int)(255.999*color.g());
+                int blue = (int)(255.999*color.b());
+                renderImage.setPixelARGB(i*width+j,Utils.to4ByteARGB(red,green,blue,JPNG.OPAQUE));
             }
         }
-        renderImage.save(data,"./output/chapter5-visualizenormals-mutipleobject.png");
+        renderImage.save("./output/chapter5-visualizenormals-mutipleobject.png");
     }
 
     // antialiasing
@@ -132,9 +131,7 @@ public class Main {
         HitObjectList world = new HitObjectList(2);
         world.hitableList.add(new Sphere(new Vector3(0.0,0.0,-1.0),0.5));
         world.hitableList.add(new Sphere(new Vector3(0.0,-100.5,-1.0),100));
-        JPNG renderImage = JPNG.createImage(width,height, ImageFormatEnum.PPM_PIXEL_ASCILL);
-        int[] data = new int[height*width*3];
-
+        JPNG renderImage = JPNG.createImage(width,height);
         for(int i = height-1;i >= 0 ;i--){
             for(int j = 0;j < width;j++){
                 Vector3 color = Vector3.getZeroVector();
@@ -146,12 +143,13 @@ public class Main {
                     color = color.plus(render.addMutipleObject(ray,world));
                 }
                 color = color.scale(1.0/samples);
-                data[i*width*3+j*3] = (int)(255.999*color.r());
-                data[i*width*3+j*3+1] = (int)(255.999*color.g());
-                data[i*width*3+j*3+2] = (int)(255.999*color.b());
+                int red = (int)(255.999*color.r());
+                int green = (int)(255.999*color.g());
+                int blue = (int)(255.999*color.b());
+                renderImage.setPixelARGB(i*width+j,Utils.to4ByteARGB(red,green,blue,JPNG.OPAQUE));
             }
         }
-        renderImage.save(data,"./output/chapter6-antialiasing.png");
+        renderImage.save("./output/chapter6-antialiasing.png");
     }
 
     // diffuse materials
@@ -164,9 +162,7 @@ public class Main {
         HitObjectList world = new HitObjectList(2);
         world.hitableList.add(new Sphere(new Vector3(0.0,0.0,-1.0),0.5));
         world.hitableList.add(new Sphere(new Vector3(0.0,-100.5,-1.0),100));
-        JPNG renderImage = JPNG.createImage(width,height, ImageFormatEnum.PPM_PIXEL_ASCILL);
-        int[] data = new int[height*width*3];
-
+        JPNG renderImage = JPNG.createImage(width,height);
         for(int i = height-1;i >= 0 ;i--){
             for(int j = 0;j < width;j++){
                 Vector3 color = Vector3.getZeroVector();
@@ -179,12 +175,13 @@ public class Main {
                 }
                 color = color.scale(1.0/samples);
                 color = new Vector3(Math.sqrt(color.r()),Math.sqrt(color.g()),Math.sqrt(color.b()));
-                data[i*width*3+j*3] = (int)(255.999*color.r());
-                data[i*width*3+j*3+1] = (int)(255.999*color.g());
-                data[i*width*3+j*3+2] = (int)(255.999*color.b());
+                int red = (int)(255.999*color.r());
+                int green = (int)(255.999*color.g());
+                int blue = (int)(255.999*color.b());
+                renderImage.setPixelARGB(i*width+j,Utils.to4ByteARGB(red,green,blue,JPNG.OPAQUE));
             }
         }
-        renderImage.save(data,"./output/chapter7-diffusematerials.png");
+        renderImage.save("./output/chapter7-diffusematerials.png");
     }
 
     // diffuse materials
@@ -199,8 +196,7 @@ public class Main {
         world.hitableList.add(new Sphere(new Vector3(0.0,-100.5,-1.0),100,new Lambertian(new Vector3(0.8,0.8,0.0))));
         world.hitableList.add(new Sphere(new Vector3(1.0,0.0,-1.0),0.5,new Metal(new Vector3(0.8,0.6,0.2),1.0)));
         world.hitableList.add(new Sphere(new Vector3(-1.0,0.0,-1.0),0.5,new Metal(new Vector3(0.8,0.8,0.8),0.3)));
-        JPNG renderImage = JPNG.createImage(width,height, ImageFormatEnum.PPM_PIXEL_ASCILL);
-        int[] data = new int[height*width*3];
+        JPNG renderImage = JPNG.createImage(width,height);
         for(int i = height-1;i >= 0 ;i--){
             for(int j = 0;j < width;j++){
                 Vector3 color = Vector3.getZeroVector();
@@ -214,12 +210,13 @@ public class Main {
                 color = color.scale(1.0/samples);
                 // gamma correction
                 color = new Vector3(Math.sqrt(color.r()),Math.sqrt(color.g()),Math.sqrt(color.b()));
-                data[i*width*3+j*3] = (int)(255.999*color.r());
-                data[i*width*3+j*3+1] = (int)(255.999*color.g());
-                data[i*width*3+j*3+2] = (int)(255.999*color.b());
+                int red = (int)(255.999*color.r());
+                int green = (int)(255.999*color.g());
+                int blue = (int)(255.999*color.b());
+                renderImage.setPixelARGB(i*width+j,Utils.to4ByteARGB(red,green,blue,JPNG.OPAQUE));
             }
         }
-        renderImage.save(data,"./output/chapter8-metalmaterials.png");
+        renderImage.save("./output/chapter8-metalmaterials.png");
     }
 
     // dielectric materials
@@ -235,8 +232,7 @@ public class Main {
         world.hitableList.add(new Sphere(new Vector3(1.0,0.0,-1.0),0.5,new Metal(new Vector3(0.8,0.6,0.2),0.3)));
         world.hitableList.add(new Sphere(new Vector3(-1.0,0.0,-1.0),0.5,new Dielectric(1.5)));
         world.hitableList.add(new Sphere(new Vector3(-1.0,0.0,-1.0),-0.45,new Dielectric(1.5)));
-        JPNG renderImage = JPNG.createImage(width,height, ImageFormatEnum.PPM_PIXEL_ASCILL);
-        int[] data = new int[height*width*3];
+        JPNG renderImage = JPNG.createImage(width,height);
         for(int i = height-1;i >= 0 ;i--){
             for(int j = 0;j < width;j++){
                 Vector3 color = Vector3.getZeroVector();
@@ -250,12 +246,13 @@ public class Main {
                 color = color.scale(1.0/samples);
                 // gamma correction
                 color = new Vector3(Math.sqrt(color.r()),Math.sqrt(color.g()),Math.sqrt(color.b()));
-                data[i*width*3+j*3] = (int)(255.999*color.r());
-                data[i*width*3+j*3+1] = (int)(255.999*color.g());
-                data[i*width*3+j*3+2] = (int)(255.999*color.b());
+                int red = (int)(255.999*color.r());
+                int green = (int)(255.999*color.g());
+                int blue = (int)(255.999*color.b());
+                renderImage.setPixelARGB(i*width+j,Utils.to4ByteARGB(red,green,blue,JPNG.OPAQUE));
             }
         }
-        renderImage.save(data,"./output/chapter9-dielectricmaterials.png");
+        renderImage.save("./output/chapter9-dielectricmaterials.png");
     }
 
     // positionale camera
@@ -271,8 +268,7 @@ public class Main {
         world.hitableList.add(new Sphere(new Vector3(1.0,0.0,-1.0),0.5,new Metal(new Vector3(0.8,0.6,0.2),0.3)));
         world.hitableList.add(new Sphere(new Vector3(-1.0,0.0,-1.0),0.5,new Dielectric(1.5)));
         world.hitableList.add(new Sphere(new Vector3(-1.0,0.0,-1.0),-0.45,new Dielectric(1.5)));
-        JPNG renderImage = JPNG.createImage(width,height, ImageFormatEnum.PPM_PIXEL_ASCILL);
-        int[] data = new int[height*width*3];
+        JPNG renderImage = JPNG.createImage(width,height);
         for(int i = height-1;i >= 0 ;i--){
             for(int j = 0;j < width;j++){
                 Vector3 color = Vector3.getZeroVector();
@@ -286,12 +282,13 @@ public class Main {
                 color = color.scale(1.0/samples);
                 // gamma correction
                 color = new Vector3(Math.sqrt(color.r()),Math.sqrt(color.g()),Math.sqrt(color.b()));
-                data[i*width*3+j*3] = (int)(255.999*color.r());
-                data[i*width*3+j*3+1] = (int)(255.999*color.g());
-                data[i*width*3+j*3+2] = (int)(255.999*color.b());
+                int red = (int)(255.999*color.r());
+                int green = (int)(255.999*color.g());
+                int blue = (int)(255.999*color.b());
+                renderImage.setPixelARGB(i*width+j,Utils.to4ByteARGB(red,green,blue,JPNG.OPAQUE));
             }
         }
-        renderImage.save(data,"./output/chapter10-positionale-camera.png");
+        renderImage.save("./output/chapter10-positionale-camera.png");
     }
 
     // defocus blur
@@ -310,8 +307,7 @@ public class Main {
         world.hitableList.add(new Sphere(new Vector3(1.0,0.0,-1.0),0.5,new Metal(new Vector3(0.8,0.6,0.2),0.3)));
         world.hitableList.add(new Sphere(new Vector3(-1.0,0.0,-1.0),0.5,new Dielectric(1.5)));
         world.hitableList.add(new Sphere(new Vector3(-1.0,0.0,-1.0),-0.45,new Dielectric(1.5)));
-        JPNG renderImage = JPNG.createImage(width,height, ImageFormatEnum.PPM_PIXEL_ASCILL);
-        int[] data = new int[height*width*3];
+        JPNG renderImage = JPNG.createImage(width,height);
         for(int i = height-1;i >= 0 ;i--){
             for(int j = 0;j < width;j++){
                 Vector3 color = Vector3.getZeroVector();
@@ -325,12 +321,13 @@ public class Main {
                 color = color.scale(1.0/samples);
                 // gamma correction
                 color = new Vector3(Math.sqrt(color.r()),Math.sqrt(color.g()),Math.sqrt(color.b()));
-                data[i*width*3+j*3] = (int)(255.999*color.r());
-                data[i*width*3+j*3+1] = (int)(255.999*color.g());
-                data[i*width*3+j*3+2] = (int)(255.999*color.b());
+                int red = (int)(255.999*color.r());
+                int green = (int)(255.999*color.g());
+                int blue = (int)(255.999*color.b());
+                renderImage.setPixelARGB(i*width+j,Utils.to4ByteARGB(red,green,blue,JPNG.OPAQUE));
             }
         }
-        renderImage.save(data,"./output/chapter11-defocusblur.png");
+        renderImage.save("./output/chapter11-defocusblur.png");
     }
 
     // lots of random spheres
@@ -344,8 +341,7 @@ public class Main {
         Render render = new Render();
         Camera camera = new Camera(lookfrom,lookat,new Vector3(0.0,1.0,0.0),90.0,1.0*width / height,0.01,distTofocus);
         Hitable world = HitObjectList.randomScene();
-        JPNG renderImage = JPNG.createImage(width,height, ImageFormatEnum.PPM_PIXEL_ASCILL);
-        int[] data = new int[height*width*3];
+        JPNG renderImage = JPNG.createImage(width,height);
         for(int i = height-1;i >= 0 ;i--){
             for(int j = 0;j < width;j++){
                 Vector3 color = Vector3.getZeroVector();
@@ -359,12 +355,13 @@ public class Main {
                 color = color.scale(1.0/samples);
                 // gamma correction
                 color = new Vector3(Math.sqrt(color.r()),Math.sqrt(color.g()),Math.sqrt(color.b()));
-                data[i*width*3+j*3] = (int)(255.999*color.r());
-                data[i*width*3+j*3+1] = (int)(255.999*color.g());
-                data[i*width*3+j*3+2] = (int)(255.999*color.b());
+                int red = (int)(255.999*color.r());
+                int green = (int)(255.999*color.g());
+                int blue = (int)(255.999*color.b());
+                renderImage.setPixelARGB(i*width+j,Utils.to4ByteARGB(red,green,blue,JPNG.OPAQUE));
             }
         }
-        renderImage.save(data,"./output/chapter12-lotsofrandomspheres.png");
+        renderImage.save("./output/chapter12-lotsofrandomspheres.png");
     }
 
     public static void main(String[] args) {
@@ -379,6 +376,6 @@ public class Main {
           chapter9();
           chapter10();
           chapter11();
-          chapter12();
+//        chapter12();
     }
 }

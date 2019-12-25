@@ -13,11 +13,11 @@ public abstract class AbstractImage {
     public AbstractImage(int width, int height){
         this.width = width;
         this.height = height;
-        this.data = new int[width * height * channel];
+        this.data = new int[width * height];
     }
 
     public AbstractImage setPixelsData(int[] data) {
-        int dataLength = width*height*channel;
+        int dataLength = width*height;
         assert data.length == dataLength:"image size not suitable";
         this.data = data;
         return this;
@@ -40,11 +40,12 @@ public abstract class AbstractImage {
         save(createFile(path));
     }
 
-    public void save(int[] pixelData,String path){
-        setPixelsData(pixelData);
-        save(createFile(path));
+    public void setPixelARGB(int index,int argb){
+        this.data[index] = argb;
     }
 
     abstract void save(File outputFile);
+
+
 
 }
